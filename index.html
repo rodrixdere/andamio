@@ -85,25 +85,46 @@
 
     <!-- Bienvenida: lo primero que ve alguien nuevo, y lo que queda si no hay builds -->
     <section class="vacio" id="vacio" hidden>
-      <div class="vacio-caja">
-        <i data-icono="capas"></i>
-        <h1>Seguí cualquier build capa por capa</h1>
-        <p>
-          Abrí un .litematic y Andamio te lo muestra desde arriba, de lado y en 3D, con los materiales que lleva cada
-          capa.
-        </p>
-        <ol class="pasos">
-          <li><b>Abrí el archivo</b><span>Elegilo o soltalo en la página. Se lee en este dispositivo.</span></li>
-          <li><b>Construí una capa</b><span>Mirá qué bloque va en cada lugar y cuántos necesitás.</span></li>
-          <li><b>Marcala terminada</b><span>Andamio recuerda por dónde ibas.</span></li>
-        </ol>
-        <div class="vacio-acciones">
-          <button class="boton boton-acento" id="agregar-vacio">
-            <i data-icono="subir"></i><span>Elegir archivo</span>
-          </button>
-          <button class="boton boton-borde" id="ver-ejemplo" hidden>Ver un ejemplo</button>
+      <div class="bienvenida">
+        <div class="bienvenida-texto">
+          <img class="bienvenida-marca" src="/icono.svg" alt="" width="56" height="56" />
+          <h1>Seguí cualquier build capa por capa</h1>
+          <p>Abrí un .litematic y mirá qué bloque va en cada lugar, desde arriba, de lado o en 3D.</p>
+          <div class="vacio-acciones">
+            <button class="boton boton-acento boton-alto" id="agregar-vacio">
+              <i data-icono="subir"></i><span>Elegir archivo</span>
+            </button>
+            <button class="boton boton-borde boton-alto" id="ver-ejemplo" hidden>Ver un ejemplo</button>
+          </div>
+          <p class="bienvenida-nota">También podés soltarlo en cualquier parte de la página.</p>
         </div>
+
+        <figure class="previa" id="previa" hidden>
+          <span class="previa-lienzo" id="previa-lienzo"><canvas id="previa-plano"></canvas></span>
+          <figcaption class="previa-pie">
+            <b id="previa-nombre"></b>
+            <span class="previa-capa" id="previa-capa"></span>
+          </figcaption>
+        </figure>
       </div>
+
+      <ul class="pasos">
+        <li>
+          <i data-icono="subir"></i>
+          <b>Abrí el archivo</b>
+          <span>Se lee en este dispositivo, no se sube a ningún lado.</span>
+        </li>
+        <li>
+          <i data-icono="capas"></i>
+          <b>Construí una capa</b>
+          <span>Cada bloque en su lugar y cuántos necesitás de cada uno.</span>
+        </li>
+        <li>
+          <i data-icono="terminada"></i>
+          <b>Marcala terminada</b>
+          <span>La próxima vez que entres seguís donde la dejaste.</span>
+        </li>
+      </ul>
     </section>
 
     <main class="app" id="app" hidden>

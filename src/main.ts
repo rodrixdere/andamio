@@ -240,6 +240,37 @@ function abrir(b: Build) {
   irACapa(preferencia(`capa-${b.id}`, 0));
 }
 
+// ---------------------------------------------------------------- bienvenida
+
+let ejemploPrevia: BuildAbierto | null = null;
+let pasoPrevia = 0;
+
+// Recorre el ejemplo capa por capa, que es justo lo que hace la app; quieto si se pide menos movimiento
+function animarPrevia() {
+  clearInterval(pasoPrevia);
+  const b = ejemploPrevia;
+  $('previa').hidden = !b;
+  if (!b) return;
+  const plano = new Plano($<HTMLCanvasElement>('previa-plano'), $('previa-lienzo'));
+  $('previa-nombre').textContent = b.datos.nombre;
+  let capa = 0;
+  const pintar = () => {
+    plano.capa(b, capa, { fantasma: true, resaltar: null, marcada: null });
+    $('previa-capa').textContent = `Capa ${capa + 1} de ${b.alto}`;
+  };
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    capa = Math.floor(b.alto / 3);
+    pintar();
+    return;
+  }
+  pintar();
+  pasoPrevia = window.setInterval(() => {
+    if ($('vacio').hidden) return clearInterval(pasoPrevia);
+    capa = (capa + 1) % b.alto;
+    pintar();
+  }, 650);
+}
+
 function sinBuilds() {
   estado.build = null;
   biblioteca();
@@ -248,6 +279,7 @@ function sinBuilds() {
   $('abrir-builds').hidden = true;
   $('vacio').hidden = false;
   document.title = 'Andamio';
+  animarPrevia();
 }
 
 function elegir(id: string | undefined) {
@@ -568,6 +600,7 @@ async function iniciar() {
   // Alguien nuevo arranca en la bienvenida; el ejemplo se abre solo si lo pide
   const elegido = preferencia<string | undefined>('elegido', undefined);
   $('ver-ejemplo').hidden = !ejemplo;
+  ejemploPrevia = ejemplo && new BuildAbierto(ejemplo);
   if (elegido || propios.length) elegir(elegido);
   else sinBuilds();
   elegirVista('capa');

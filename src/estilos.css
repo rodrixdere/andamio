@@ -292,7 +292,7 @@ h2 {
   .marca-icono {
     display: block;
   }
-  .boton-acento span {
+  #agregar span {
     display: none;
   }
   #agregar {
@@ -557,7 +557,8 @@ h2 {
   .materiales {
     position: sticky;
     top: calc(var(--barra) + 0.5rem);
-    max-height: calc(100dvh - var(--barra) - var(--capas) - 1.5rem);
+    /* Arriba deja el margen de la app y abajo el de la barra de capas: así la página no pasa de una pantalla */
+    max-height: calc(100dvh - var(--barra) - var(--capas) - 2.5rem - env(safe-area-inset-bottom, 0px));
     display: flex;
     flex-direction: column;
     padding-left: 1.5rem;
@@ -588,6 +589,33 @@ h2 {
   padding: 0;
   overflow: auto;
   min-height: 0;
+}
+
+/* Barra fina del color de la cuadrícula, sin flechas; se marca más al pasar el mouse */
+.materiales-lista::-webkit-scrollbar {
+  width: 10px;
+}
+
+.materiales-lista::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.materiales-lista::-webkit-scrollbar-thumb {
+  border: 3px solid transparent;
+  border-radius: 999px;
+  background: var(--reja-fuerte) padding-box;
+}
+
+.materiales-lista:hover::-webkit-scrollbar-thumb {
+  background-color: var(--suave);
+}
+
+/* Firefox no tiene los seudoelementos de arriba */
+@supports not selector(::-webkit-scrollbar) {
+  .materiales-lista {
+    scrollbar-width: thin;
+    scrollbar-color: var(--reja-fuerte) transparent;
+  }
 }
 
 .materiales-lista button {
@@ -939,74 +967,150 @@ input[type='range']::-moz-range-thumb {
 
 .vacio {
   display: grid;
-  place-items: center;
+  align-content: center;
+  gap: clamp(1.5rem, 5vh, 4.5rem);
+  width: min(72rem, 100%);
   min-height: calc(100dvh - var(--barra));
-  padding: 2rem max(16px, env(safe-area-inset-right, 0px)) 2rem max(16px, env(safe-area-inset-left, 0px));
+  margin: 0 auto;
+  padding: 1.5rem max(16px, env(safe-area-inset-right, 0px)) max(1.5rem, env(safe-area-inset-bottom, 0px))
+    max(16px, env(safe-area-inset-left, 0px));
 }
 
-.vacio-caja {
+.bienvenida {
   display: grid;
-  justify-items: center;
-  gap: 1rem;
-  max-width: 26rem;
-  text-align: center;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  align-items: center;
+  gap: clamp(2rem, 5vw, 4.5rem);
 }
 
-.vacio-caja > svg {
-  font-size: 3rem;
-  color: var(--acento);
+.bienvenida-texto {
+  display: grid;
+  justify-items: start;
+  gap: 1.25rem;
 }
 
-.vacio-caja h1 {
-  font-size: clamp(1.6rem, 5vw, 2.2rem);
+.bienvenida-marca {
+  width: 3.5rem;
+  height: 3.5rem;
 }
 
-.vacio-caja p {
+.bienvenida h1 {
+  margin: 0;
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  font-weight: 650;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+.bienvenida-texto > p {
+  max-width: 34ch;
   margin: 0;
   color: var(--suave);
-}
-
-.pasos {
-  display: grid;
-  gap: 0.75rem;
-  width: 100%;
-  margin: 0.5rem 0;
-  padding: 0;
-  list-style: none;
-  counter-reset: paso;
-  text-align: left;
-}
-
-.pasos li {
-  display: grid;
-  grid-template-columns: 2rem 1fr;
-  column-gap: 0.75rem;
-  counter-increment: paso;
-}
-
-.pasos li::before {
-  content: counter(paso);
-  grid-row: span 2;
-  display: grid;
-  place-items: center;
-  width: 2rem;
-  height: 2rem;
-  border-radius: 50%;
-  background: color-mix(in srgb, var(--acento) 15%, transparent);
-  color: var(--acento);
-  font-weight: 600;
-}
-
-.pasos span {
-  color: var(--suave);
-  font-size: 0.9rem;
+  font-size: 1.1rem;
+  line-height: 1.5;
 }
 
 .vacio-acciones {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
   gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.boton-alto {
+  height: 3rem;
+  padding-inline: 1.35rem;
+  font-size: 1rem;
+}
+
+.bienvenida .bienvenida-nota {
+  font-size: 0.88rem;
+}
+
+/* El ejemplo armándose solo: muestra lo que hace la app antes de abrir nada */
+.previa {
+  display: grid;
+  gap: 0.9rem;
+  margin: 0;
+  padding: 1rem;
+  border-radius: calc(var(--radio) + 6px);
+  background: var(--superficie);
+  box-shadow:
+    inset 0 0 0 1px var(--linea),
+    var(--sombra);
+}
+
+.previa-lienzo {
+  display: grid;
+  place-items: center;
+  height: clamp(16rem, 46vh, 26rem);
+  padding: 1rem;
+  overflow: hidden;
+  border-radius: var(--radio);
+  background: var(--lienzo);
+}
+
+.previa-lienzo canvas {
+  display: block;
+  image-rendering: pixelated;
+}
+
+.previa-pie {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0 0.35rem 0.15rem;
+}
+
+.previa-capa {
+  color: var(--suave);
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.pasos {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem clamp(1.5rem, 4vw, 3rem);
+  margin: 0;
+  padding: 2rem 0 0;
+  border-top: 1px solid var(--linea);
+  list-style: none;
+}
+
+.pasos li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 0.8rem;
+  row-gap: 0.25rem;
+  align-items: center;
+}
+
+.pasos li > svg {
+  font-size: 1.35rem;
+  color: var(--acento);
+}
+
+.pasos span {
+  grid-column: 2;
+  color: var(--suave);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+@media (width <= 860px) {
+  .bienvenida,
+  .pasos {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .vacio {
+    align-content: start;
+    gap: 2.5rem;
+  }
 }
 
 .soltar {
