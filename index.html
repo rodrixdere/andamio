@@ -83,13 +83,26 @@
 
     <div class="aviso" id="aviso" role="status" hidden></div>
 
-    <!-- Sin builds: una sola invitación a abrir el primero -->
+    <!-- Bienvenida: lo primero que ve alguien nuevo, y lo que queda si no hay builds -->
     <section class="vacio" id="vacio" hidden>
       <div class="vacio-caja">
-        <i data-icono="subir"></i>
-        <h1>Abrí un build para empezar</h1>
-        <p>Elegí un archivo .litematic o soltalo en cualquier parte de la página. Se lee en este dispositivo.</p>
-        <button class="boton boton-acento" id="agregar-vacio">Elegir archivo</button>
+        <i data-icono="capas"></i>
+        <h1>Seguí cualquier build capa por capa</h1>
+        <p>
+          Abrí un .litematic y Andamio te lo muestra desde arriba, de lado y en 3D, con los materiales que lleva cada
+          capa.
+        </p>
+        <ol class="pasos">
+          <li><b>Abrí el archivo</b><span>Elegilo o soltalo en la página. Se lee en este dispositivo.</span></li>
+          <li><b>Construí una capa</b><span>Mirá qué bloque va en cada lugar y cuántos necesitás.</span></li>
+          <li><b>Marcala terminada</b><span>Andamio recuerda por dónde ibas.</span></li>
+        </ol>
+        <div class="vacio-acciones">
+          <button class="boton boton-acento" id="agregar-vacio">
+            <i data-icono="subir"></i><span>Elegir archivo</span>
+          </button>
+          <button class="boton boton-borde" id="ver-ejemplo" hidden>Ver un ejemplo</button>
+        </div>
       </div>
     </section>
 

@@ -359,6 +359,7 @@ async function cargarPaquete(archivo: File) {
 function conectar() {
   const elegirArchivo = () => $('archivo').click();
   for (const id of ['agregar', 'agregar-vacio', 'agregar-hoja']) $(id).addEventListener('click', elegirArchivo);
+  $('ver-ejemplo').addEventListener('click', () => elegir('ejemplo'));
   $<HTMLInputElement>('archivo').addEventListener('change', e => {
     const input = e.target as HTMLInputElement;
     void agregar([...(input.files ?? [])]);
@@ -564,7 +565,11 @@ async function iniciar() {
   }
   elegirFuente(preferencia('texturas-del-juego', false));
   marcarFuente();
-  elegir(preferencia<string | undefined>('elegido', undefined));
+  // Alguien nuevo arranca en la bienvenida; el ejemplo se abre solo si lo pide
+  const elegido = preferencia<string | undefined>('elegido', undefined);
+  $('ver-ejemplo').hidden = !ejemplo;
+  if (elegido || propios.length) elegir(elegido);
+  else sinBuilds();
   elegirVista('capa');
 }
 
